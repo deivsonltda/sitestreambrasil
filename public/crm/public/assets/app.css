@@ -1,0 +1,295 @@
+:root{
+  /* cores muito próximas do print */
+  --green:#00755c;
+  --green2:#006c54;
+
+  --bg:#ebe7e0;
+  --card:#ffffff;
+  --line:rgba(0,0,0,.06);
+
+  --txt:#1f2a2e;
+  --muted:#7a868c;
+
+  --shadow:0 10px 22px rgba(0,0,0,.10);
+  --shadow2:0 6px 14px rgba(0,0,0,.10);
+
+  --radius:14px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background:var(--bg);
+  color:var(--txt);
+}
+
+/* ====== LAYOUT BASE (usado no _layout_top.php) ====== */
+.app-body{display:flex; min-height:100vh}
+.main{flex:1; min-width:0; padding:0}
+
+/* ====== SIDEBAR (estilo do print) ====== */
+.sidebar{
+  width:62px;
+  background:linear-gradient(180deg,#3b3a3a,#2f2f2f);
+  padding:10px 8px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.brand{display:none} /* some com o texto "CRM Atendimento" pra ficar igual ao print */
+
+.nav{
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  margin-top:4px;
+}
+.nav-item{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  color:rgba(255,255,255,.82);
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+}
+.nav-item:hover{background:rgba(255,255,255,.10)}
+.nav-item.active{
+  background:rgba(0,0,0,.22);
+  border-color:rgba(255,255,255,.14);
+  color:#fff;
+}
+
+.sidebar-footer{
+  margin-top:auto;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  padding:10px 0 4px;
+}
+.sidebar-footer .me{display:none} /* esconde só o bloco do usuário no rodapé */
+.logout{
+  width:44px;height:44px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;
+  color:#fff;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+}
+
+/* ====== TOPBAR VERDE (do print) ====== */
+.topbar{
+  height:54px;
+  background:var(--green);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 12px;
+  box-shadow:0 6px 14px rgba(0,0,0,.18);
+}
+.topbar-left{font-weight:900; display:flex; align-items:center; gap:10px}
+.topbar-search{
+  display:flex; align-items:center; gap:10px;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:14px;
+  padding:8px 10px;
+  min-width:280px;
+}
+.topbar-search input{
+  border:0; outline:0; background:transparent;
+  color:#fff; width:100%;
+}
+.topbar-search input::placeholder{color:rgba(255,255,255,.75)}
+.topbar-right{margin-left:auto; display:flex; align-items:center; gap:10px}
+.tb-chip,.tb-icon{
+  display:flex; align-items:center; justify-content:center;
+  height:36px;
+  border-radius:14px;
+  background:rgba(0,0,0,.14);
+  border:1px solid rgba(255,255,255,.14);
+  color:#fff;
+}
+.tb-chip{padding:0 12px; gap:8px; font-weight:800}
+.tb-icon{width:36px}
+
+/* ====== BOARD / COLUNAS (igual print) ====== */
+.board{padding:12px 12px 72px; overflow:auto}
+.columns{display:flex; gap:12px; align-items:flex-start}
+.col{
+  width:260px;
+  background:rgba(0,0,0,.03);
+  border:1px solid rgba(0,0,0,.05);
+  border-radius:16px;
+  padding:10px;
+}
+.col-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
+.col-title{font-weight:900; color:#0f2b24; display:flex; align-items:center; gap:8px}
+.col-count{font-weight:900; font-size:12px; padding:3px 8px; border-radius:999px; background:rgba(0,0,0,.08)}
+
+.ticket{
+  background:var(--card);
+  border:1px solid rgba(0,0,0,.07);
+  border-radius:14px;
+  box-shadow:var(--shadow2);
+  padding:10px;
+  margin-bottom:10px;
+}
+.row{display:flex; align-items:center; gap:10px}
+.avatar{
+  width:34px;height:34px;border-radius:999px;overflow:hidden;
+  background:#f0efe9;border:1px solid rgba(0,0,0,.08);
+  flex:0 0 auto;
+}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.title{font-weight:900;font-size:13px;line-height:1.1;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sub{font-size:12px;color:var(--muted);margin-top:2px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.meta{margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dot{width:10px;height:10px;border-radius:99px;background:#22c55e; box-shadow:0 0 0 3px rgba(34,197,94,.14)}
+.dot.red{background:#ef4444; box-shadow:0 0 0 3px rgba(239,68,68,.14)}
+.pill{
+  background:rgba(0,0,0,.04);
+  border:1px solid rgba(0,0,0,.06);
+  border-radius:999px;
+  padding:4px 8px;
+  font-size:12px;
+  font-weight:900;
+}
+.actions{display:flex; gap:10px; position:fixed; right:14px; bottom:14px}
+.fab{
+  width:44px;height:44px;border-radius:16px;border:0;
+  background:var(--green);color:#fff;cursor:pointer;
+  box-shadow:var(--shadow);
+}
+.fab.secondary{background:#0a8a6c}
+
+/* botão iniciar atendimento dentro do card */
+.btn-start{
+  width:100%;
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:0;
+  background:var(--green);
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+.btn-start:hover{filter:brightness(1.03)}
+.btn-start[disabled]{opacity:.5; cursor:not-allowed}
+
+/* ====== LIST (conversas/concluidas) ====== */
+.list{padding:12px}
+.list-item{
+  background:var(--card);
+  border:1px solid rgba(0,0,0,.07);
+  border-radius:14px;
+  box-shadow:var(--shadow2);
+  padding:12px;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+}
+.list-item:hover{box-shadow:var(--shadow)}
+.list-info{min-width:0}
+.list-title{font-weight:900}
+.list-sub{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:540px}
+.list-right{margin-left:auto;font-size:12px;color:rgba(0,0,0,.45);font-weight:900}
+
+/* ====== CHAT ====== */
+.chat-wrap{height:calc(100vh - 0px); display:flex; flex-direction:column}
+.chat-header{
+  height:62px;
+  background:var(--card);
+  border-bottom:1px solid rgba(0,0,0,.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 12px;
+}
+.chat-head-left{display:flex;align-items:center;gap:10px}
+.chat-title{font-weight:900}
+.chat-sub{font-size:12px;color:var(--muted)}
+.chat-body{
+  flex:1;
+  padding:14px;
+  overflow:auto;
+}
+.chat-footer{
+  display:flex;
+  gap:10px;
+  padding:12px;
+  background:var(--card);
+  border-top:1px solid rgba(0,0,0,.06);
+}
+.chat-input{
+  flex:1;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,.10);
+  outline:0;
+}
+
+/* botões genéricos */
+.btn{
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.08);
+  background:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+.btn.primary{background:var(--green); color:#fff; border-color:transparent}
+.btn.danger{background:#ef4444; color:#fff; border-color:transparent}
+
+/* ====== LOGIN ====== */
+.login-body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--bg);
+}
+.login-card{
+  width:380px;
+  background:var(--card);
+  border-radius:18px;
+  border:1px solid rgba(0,0,0,.07);
+  box-shadow:var(--shadow);
+  padding:18px;
+}
+.login-title{font-weight:1000; font-size:18px}
+.login-sub{color:var(--muted); margin-top:4px; margin-bottom:14px}
+.login-form{display:flex; flex-direction:column; gap:8px}
+.login-form label{font-weight:800; font-size:12px; color:#243034}
+.login-form input{
+  padding:12px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,.12);
+  outline:0;
+}
+.login-form button{
+  margin-top:6px;
+  padding:12px;
+  border-radius:14px;
+  border:0;
+  background:var(--green);
+  color:#fff;
+  font-weight:1000;
+  cursor:pointer;
+}
+.login-err{color:#ef4444; font-weight:900; margin-top:6px}
+.login-hint{margin-top:12px; color:var(--muted); font-size:12px}
