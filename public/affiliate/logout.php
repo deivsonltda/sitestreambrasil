@@ -40,5 +40,5 @@ if (ini_get("session.use_cookies")) {
 session_destroy();
 
 // Vai pro login
-header("Location: /affiliate/login.php");
+header("Location: /login.php");
 exit;

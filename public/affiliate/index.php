@@ -1,1 +1,1 @@
-<?php header("Location: /affiliate/login.php"); exit;
+<?php header("Location: /login.php"); exit;

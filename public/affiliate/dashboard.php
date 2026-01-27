@@ -10,7 +10,7 @@ $affName     = $_SESSION['affiliate_name'] ?? '';
 $code        = $_SESSION['affiliate_code'] ?? '';
 
 if (!$affiliateId) {
-  header("Location: /affiliate/login.php");
+  header("Location: /login.php");
   exit;
 }
 
@@ -465,7 +465,7 @@ try {
           title="Atualizar painel">
           <i class="bi bi-arrow-clockwise"></i>
         </a>
-        <a class="btn btn-outline-danger" href="/affiliate/logout.php">Sair</a>
+        <a class="btn btn-outline-danger" href="/logout.php">Sair</a>
       </div>
     </div>
 

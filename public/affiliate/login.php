@@ -35,7 +35,7 @@ if (empty($_SESSION['affiliate_id']) && !empty($_COOKIE['affiliate_remember'])) 
     $_SESSION['affiliate_name'] = $a['name'];
     $_SESSION['affiliate_code'] = $a['code'];
 
-    header("Location: /affiliate/dashboard.php");
+    header("Location: /dashboard.php");
     exit;
   } else {
     // cookie inválido -> apaga
@@ -44,7 +44,7 @@ if (empty($_SESSION['affiliate_id']) && !empty($_COOKIE['affiliate_remember'])) 
 }
 
 if (!empty($_SESSION['affiliate_id'])) {
-  header("Location: /affiliate/dashboard.php");
+  header("Location: /dashboard.php");
   exit;
 }
 
@@ -92,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       setcookie('affiliate_remember', '', time() - 3600, '/');
     }
 
-    header("Location: /affiliate/dashboard.php");
+    header("Location: /dashboard.php");
     exit;
   } catch (Exception $e) {
     $error = $e->getMessage();
