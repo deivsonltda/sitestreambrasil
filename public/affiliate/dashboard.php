@@ -159,7 +159,7 @@ try {
     if ($c['rule_type'] === 'recurring_percent') $recPrev += (float)$c['amount'];
   }
 
-  $refLink = rtrim($cfg['BASE_URL'] ?? '', '/') . '/a/' . $aff['code'];
+  $refLink = rtrim($cfg['BASE_URL'] ?? '', '/') . '/a.php?c=' . urlencode($aff['code']);
 } catch (Exception $e) {
   http_response_code(404);
   echo $e->getMessage();
