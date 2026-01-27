@@ -238,6 +238,15 @@ $recoverUrl = "https://wa.me/5581984521498?text=" . urlencode("Olá! Esqueci min
     .btn-primary:active {
       transform: translateY(1px);
     }
+
+    @media (max-width: 576px) {
+      .login-card {
+        width: 90vw;
+        max-width: 90vw;
+        padding: 24px;
+      }
+    }
+    
   </style>
 </head>
 
