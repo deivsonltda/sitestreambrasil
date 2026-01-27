@@ -114,6 +114,26 @@ function get_base_url(array $cfg): string
   return $host ? "{$scheme}://{$host}" : '';
 }
 
+// ===== INDICADOS =====
+// Mapeia status do customer para novo/teste/pago SEM mudar teu banco.
+// Regra:
+// - se tiver trial_expires_at => teste
+// - se status/step indicar pago/active => pago
+// - senão => novo
+function map_customer_status(array $c): string
+{
+  $trialExp = trim((string)($c['trial_expires_at'] ?? ''));
+  if ($trialExp !== '') return 'teste';
+
+  $status = strtolower(trim((string)($c['status'] ?? '')));
+  $step   = strtoupper(trim((string)($c['step'] ?? '')));
+
+  if (in_array($status, ['paid', 'pago', 'active', 'ativo'], true)) return 'pago';
+  if (in_array($step, ['PAID', 'PAGO', 'ACTIVE'], true)) return 'pago';
+
+  return 'novo';
+}
+
 try {
   $aff = sb_request(
     'GET',
@@ -181,6 +201,19 @@ try {
   $base = get_base_url($cfg);
   // link ABSOLUTO para o shortlink handler (a.php?c=code)
   $refLink = rtrim($cfg['BASE_URL'] ?? '', '/') . '/a.php?c=' . urlencode($aff['code']);
+
+  // ===== INDICADOS =====
+  // Lista de customers vinculados ao afiliado logado (mais recentes primeiro).
+  // (não mexe em período de comissões; aqui é transparência geral)
+  $customers = sb_request(
+    'GET',
+    "customers?select=id,name,status,step,created_at,trial_expires_at"
+      . "&affiliate_id=eq." . urlencode($affiliateId)
+      . "&order=created_at.desc"
+      . "&limit=200",
+    null,
+    true
+  );
 } catch (Exception $e) {
   http_response_code(404);
   echo $e->getMessage();
@@ -468,7 +501,7 @@ try {
       </form>
     </div>
 
-    <!-- Tabela -->
+    <!-- Tabela Comissões -->
     <div class="card-soft p-3">
       <div class="d-flex align-items-center justify-content-between mb-2">
         <h6 class="mb-0" style="font-weight:800;color:rgba(70,60,140,.98);">Comissões</h6>
@@ -504,6 +537,61 @@ try {
                     <?= htmlspecialchars(fmt_br_datetime($c['created_at'])) ?>
                   </td>
                 </tr>
+            <?php endforeach; endif; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== INDICADOS (NOVO BLOCO) ===== -->
+    <div class="card-soft p-3 mt-3">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h6 class="mb-0" style="font-weight:800;color:rgba(70,60,140,.98);">Indicados</h6>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-sm align-middle mb-0 table-soft">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Status</th>
+              <th class="text-end">Data</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if (empty($customers)): ?>
+              <tr>
+                <td colspan="3" class="text-muted py-3">Nenhum indicado ainda.</td>
+              </tr>
+            <?php else: foreach ($customers as $cu): ?>
+              <?php
+                $st = map_customer_status($cu);
+              ?>
+              <tr>
+                <td class="fw-semibold">
+                  <?= htmlspecialchars($cu['name'] ?? '—') ?>
+                </td>
+
+                <td>
+                  <?php if ($st === 'novo'): ?>
+                    <span class="type-badge" style="background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.22); color: #475569;">
+                      Novo
+                    </span>
+                  <?php elseif ($st === 'teste'): ?>
+                    <span class="type-badge" style="background: rgba(245,158,11,.14); border-color: rgba(245,158,11,.22); color: #92400e;">
+                      Teste
+                    </span>
+                  <?php else: ?>
+                    <span class="type-badge" style="background: rgba(34,197,94,.14); border-color: rgba(34,197,94,.22); color: #15803d;">
+                      Pago
+                    </span>
+                  <?php endif; ?>
+                </td>
+
+                <td class="text-end text-muted">
+                  <?= htmlspecialchars(fmt_br_datetime($cu['created_at'] ?? '')) ?>
+                </td>
+              </tr>
             <?php endforeach; endif; ?>
           </tbody>
         </table>
