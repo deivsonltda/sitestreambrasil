@@ -668,19 +668,19 @@ try {
 
                   <td>
                     <?php if ($st === 'new'): ?>
-                      <span class="type-badge" style="background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.22); color: #475569;">
+                      <span class="type-badge" style="background:#9ca3af; border-color:#6b7280; color:#ffffff;">
                         NOVO
                       </span>
                     <?php elseif ($st === 'trial'): ?>
-                      <span class="type-badge" style="background: rgba(245,158,11,.14); border-color: rgba(245,158,11,.22); color: #ced10c;">
+                      <span class="type-badge" style="background:#facc15; border-color:#eab308; color:#78350f;">
                         TESTANDO
                       </span>
                     <?php elseif ($st === 'active'): ?>
-                      <span class="type-badge" style="background: rgba(34,197,94,.14); border-color: rgba(34,197,94,.22); color: #15803d;">
+                      <span class="type-badge" style="background:#22c55e; border-color:#16a34a; color:#ffffff;">
                         ATIVO
                       </span>
                     <?php else: ?>
-                      <span class="type-badge" style="background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.22); color: #b91c1c;">
+                      <span class="type-badge" style="background:#ef4444; border-color:#dc2626; color:#ffffff;">
                         INATIVO
                       </span>
                     <?php endif; ?>
