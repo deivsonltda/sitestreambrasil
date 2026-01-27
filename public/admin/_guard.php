@@ -1,9 +1,7 @@
 <?php
 session_start();
 
-$cfg = require __DIR__ . '/../../config.php';
-
-// verifica se o admin está logado
+// Admin logado?
 $isLogged = !empty($_SESSION['admin']) && $_SESSION['admin'] === true;
 
 if (!$isLogged) {

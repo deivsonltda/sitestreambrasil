@@ -1,13 +1,11 @@
 <?php
 session_start();
+$cfg = require __DIR__ . '/../../config.php';
 
-if (!empty($_SESSION['admin']) && $_SESSION['admin'] === true) {
+if (!empty($_SESSION['admin'])) {
   header("Location: /affiliates.php");
   exit;
 }
-
-header("Location: /login.php");
-exit;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $pass = $_POST['password'] ?? '';
@@ -18,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   $error = "Senha inválida.";
 }
+
 ?>
 <!doctype html>
 <html lang="pt-br">
