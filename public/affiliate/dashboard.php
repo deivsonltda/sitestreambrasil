@@ -95,6 +95,25 @@ function get_previous_range(DateTime $start, DateTime $end)
   return [$prevStart, $prevEnd];
 }
 
+/**
+ * Base URL absoluta (prioriza config BASE_URL, senão usa host atual)
+ */
+function get_base_url(array $cfg): string
+{
+  $base = trim((string)($cfg['BASE_URL'] ?? ''));
+  $base = rtrim($base, '/');
+
+  if ($base !== '') return $base;
+
+  $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+
+  $scheme = $https ? 'https' : 'http';
+  $host = $_SERVER['HTTP_HOST'] ?? '';
+
+  return $host ? "{$scheme}://{$host}" : '';
+}
+
 try {
   $aff = sb_request(
     'GET',
@@ -159,7 +178,9 @@ try {
     if ($c['rule_type'] === 'recurring_percent') $recPrev += (float)$c['amount'];
   }
 
-  $refLink = rtrim($cfg['BASE_URL'] ?? '', '/') . '/a.php?c=' . urlencode($aff['code']);
+  $base = get_base_url($cfg);
+  // link ABSOLUTO para o shortlink handler (a.php?c=code)
+  $refLink = $base . '/a.php?c=' . urlencode((string)($aff['code'] ?? ''));
 } catch (Exception $e) {
   http_response_code(404);
   echo $e->getMessage();
@@ -179,7 +200,6 @@ try {
 
   <style>
     :root {
-      /* Paleta (meio-termo): roxo protagonista + azuis sutis */
       --ink: #161433;
       --muted: rgba(22, 20, 51, .62);
       --bg: #f6f7fb;
@@ -195,48 +215,32 @@ try {
       --softViolet2: rgba(94, 123, 255, .10);
     }
 
-    html,
-    body {
-      height: 100%;
-    }
-
+    html, body { height: 100%; }
     body.bg-light {
       min-height: 100dvh;
-      /* dvh resolve barra dinâmica no mobile */
       background: var(--bg) !important;
       position: relative;
       overflow-x: hidden;
     }
-
-    /* BACKGROUND REAL (não quebra em mobile) */
     body.bg-light::before {
       content: "";
       position: fixed;
       inset: -20%;
-      /* maior que a tela para nunca “emendar” */
       z-index: -1;
-
       background:
         radial-gradient(900px 520px at 12% 10%, rgba(124, 92, 255, .16), transparent 60%),
         radial-gradient(900px 520px at 85% 20%, rgba(94, 123, 255, .14), transparent 60%),
         var(--bg);
-
       background-repeat: no-repeat;
       background-size: cover;
     }
-
-    /* Botões (tudo puxado pro roxo) */
     .btn-primary {
       border: none;
       font-weight: 700;
       background: linear-gradient(135deg, var(--violet), var(--violet2));
       box-shadow: 0 14px 32px rgba(124, 92, 255, .22);
     }
-
-    .btn-primary:hover {
-      filter: brightness(1.03);
-    }
-
+    .btn-primary:hover { filter: brightness(1.03); }
     .btn-outline-primary {
       --bs-btn-color: var(--violet);
       --bs-btn-border-color: rgba(124, 92, 255, .40);
@@ -246,7 +250,6 @@ try {
       --bs-btn-active-bg: rgba(124, 92, 255, .14);
       --bs-btn-active-border-color: rgba(124, 92, 255, .65);
     }
-
     .btn-outline-secondary {
       --bs-btn-color: rgba(22, 20, 51, .72);
       --bs-btn-border-color: rgba(140, 120, 255, .28);
@@ -254,39 +257,18 @@ try {
       --bs-btn-hover-border-color: rgba(140, 120, 255, .45);
       --bs-btn-hover-color: var(--ink);
     }
-
-    /* Refresh */
-    .btn-refresh i {
-      transition: transform .4s ease;
-    }
-
-    .btn-refresh:active i {
-      transform: rotate(360deg);
-    }
-
-    /* Cards */
-    .card-soft,
-    .card-kpi {
+    .btn-refresh i { transition: transform .4s ease; }
+    .btn-refresh:active i { transform: rotate(360deg); }
+    .card-soft, .card-kpi {
       border: 1px solid var(--stroke);
       border-radius: 18px;
       background: rgba(255, 255, 255, .92);
       box-shadow: var(--cardShadow);
       backdrop-filter: blur(6px);
     }
+    .card-kpi .kpi-label { font-size: .9rem; color: rgba(22, 20, 51, .60); }
+    .card-kpi .kpi-value { font-size: 1.72rem; font-weight: 800; letter-spacing: -.4px; }
 
-    /* KPI */
-    .card-kpi .kpi-label {
-      font-size: .9rem;
-      color: rgba(22, 20, 51, .60);
-    }
-
-    .card-kpi .kpi-value {
-      font-size: 1.72rem;
-      font-weight: 800;
-      letter-spacing: -.4px;
-    }
-
-    /* Header chip */
     .chip {
       display: inline-flex;
       align-items: center;
@@ -299,12 +281,8 @@ try {
       font-size: .85rem;
       font-weight: 600;
     }
+    .chip i { color: rgba(124, 92, 255, .95); }
 
-    .chip i {
-      color: rgba(124, 92, 255, .95);
-    }
-
-    /* Delta chip (como seu print) */
     .delta-chip {
       display: inline-flex;
       align-items: center;
@@ -317,79 +295,34 @@ try {
       border: 1px solid transparent;
       user-select: none;
     }
+    .delta-chip i { font-size: .92rem; }
+    .delta-chip.up { color: #15803d; background: rgba(34, 197, 94, .14); border-color: rgba(34, 197, 94, .22); }
+    .delta-chip.down { color: #b91c1c; background: rgba(239, 68, 68, .14); border-color: rgba(239, 68, 68, .22); }
+    .delta-chip.neutral { color: #475569; background: rgba(148, 163, 184, .14); border-color: rgba(148, 163, 184, .22); }
 
-    .delta-chip i {
-      font-size: .92rem;
-    }
-
-    .delta-chip.up {
-      color: #15803d;
-      background: rgba(34, 197, 94, .14);
-      border-color: rgba(34, 197, 94, .22);
-    }
-
-    .delta-chip.down {
-      color: #b91c1c;
-      background: rgba(239, 68, 68, .14);
-      border-color: rgba(239, 68, 68, .22);
-    }
-
-    .delta-chip.neutral {
-      color: #475569;
-      background: rgba(148, 163, 184, .14);
-      border-color: rgba(148, 163, 184, .22);
-    }
-
-    /* Filtro */
-    .form-label {
-      font-weight: 700;
-      color: rgba(22, 20, 51, .78);
-      margin-bottom: 6px;
-    }
-
-    .form-select,
-    .form-control {
+    .form-label { font-weight: 700; color: rgba(22, 20, 51, .78); margin-bottom: 6px; }
+    .form-select, .form-control {
       border-radius: 14px;
       border: 1px solid rgba(140, 120, 255, .22);
       background: rgba(255, 255, 255, .92);
       transition: .15s ease;
     }
-
-    .form-select:focus,
-    .form-control:focus {
+    .form-select:focus, .form-control:focus {
       border-color: rgba(124, 92, 255, .55);
       box-shadow: 0 0 0 .2rem rgba(124, 92, 255, .16);
     }
 
-    /* Input do link */
     #refLink {
       font-weight: 600;
       color: rgba(22, 20, 51, .78);
       background: linear-gradient(135deg, rgba(124, 92, 255, .06), rgba(94, 123, 255, .05));
     }
+    .input-group .btn { border-radius: 14px; }
+    .input-group .form-control { border-radius: 14px; }
+    .input-group>:not(:first-child) { margin-left: 8px; border-radius: 14px !important; }
+    .input-group>:not(:last-child) { border-radius: 14px !important; }
 
-    .input-group .btn {
-      border-radius: 14px;
-    }
-
-    .input-group .form-control {
-      border-radius: 14px;
-    }
-
-    .input-group>:not(:first-child) {
-      margin-left: 8px;
-      border-radius: 14px !important;
-    }
-
-    .input-group>:not(:last-child) {
-      border-radius: 14px !important;
-    }
-
-    /* Tabela com acento roxo */
-    .table-soft {
-      --rowHover: rgba(124, 92, 255, .06);
-    }
-
+    .table-soft { --rowHover: rgba(124, 92, 255, .06); }
     .table-soft thead th {
       color: rgba(70, 60, 140, .95);
       font-weight: 800;
@@ -397,16 +330,12 @@ try {
       padding-top: 12px;
       padding-bottom: 12px;
     }
-
     .table-soft tbody td {
       padding-top: 12px;
       padding-bottom: 12px;
       border-color: rgba(140, 120, 255, .12);
     }
-
-    .table-soft tbody tr:hover {
-      background: var(--rowHover);
-    }
+    .table-soft tbody tr:hover { background: var(--rowHover); }
 
     .type-badge {
       display: inline-flex;
@@ -420,28 +349,12 @@ try {
       letter-spacing: .2px;
       white-space: nowrap;
     }
+    .type-adh { background: rgba(94, 123, 255, .12); border-color: rgba(94, 123, 255, .22); color: rgba(35, 90, 165, .95); }
+    .type-rec { background: rgba(124, 92, 255, .12); border-color: rgba(124, 92, 255, .22); color: rgba(70, 60, 140, .95); }
 
-    .type-adh {
-      background: rgba(94, 123, 255, .12);
-      border-color: rgba(94, 123, 255, .22);
-      color: rgba(35, 90, 165, .95);
-    }
-
-    .type-rec {
-      background: rgba(124, 92, 255, .12);
-      border-color: rgba(124, 92, 255, .22);
-      color: rgba(70, 60, 140, .95);
-    }
-
-    /* Ajustes responsivos */
     @media (max-width: 576px) {
-      .card-kpi .kpi-value {
-        font-size: 1.55rem;
-      }
-
-      .chip {
-        font-size: .82rem;
-      }
+      .card-kpi .kpi-value { font-size: 1.55rem; }
+      .chip { font-size: .82rem; }
     }
   </style>
 </head>
@@ -512,8 +425,8 @@ try {
           <div class="mt-2">
             <div class="input-group">
               <input id="refLink" class="form-control" value="<?= htmlspecialchars($refLink) ?>" readonly>
-              <button class="btn btn-outline-primary" type="button" onclick="copyRefLink()">
-                <i class="bi bi-copy me-1"></i>Copiar
+              <button id="btnCopy" class="btn btn-outline-primary" type="button" onclick="copyRefLink()">
+                <i class="bi bi-copy me-1"></i><span id="btnCopyLabel">Copiar</span>
               </button>
             </div>
           </div>
@@ -591,8 +504,7 @@ try {
                     <?= htmlspecialchars(fmt_br_datetime($c['created_at'])) ?>
                   </td>
                 </tr>
-            <?php endforeach;
-            endif; ?>
+            <?php endforeach; endif; ?>
           </tbody>
         </table>
       </div>
@@ -620,18 +532,33 @@ try {
 
     async function copyRefLink() {
       const input = document.getElementById('refLink');
+      const btn = document.getElementById('btnCopy');
+      const label = document.getElementById('btnCopyLabel');
       const text = input.value;
+
+      // Seleciona para UX (mesmo se clipboard falhar)
+      input.focus();
+      input.select();
+
+      const oldLabel = label ? label.textContent : 'Copiar';
 
       try {
         await navigator.clipboard.writeText(text);
       } catch (e) {
-        input.focus();
-        input.select();
+        // fallback antigo
         document.execCommand('copy');
-        input.blur();
       }
+
+      if (label) label.textContent = 'Copiado';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        if (label) label.textContent = oldLabel;
+        btn.disabled = false;
+        input.blur();
+      }, 1200);
     }
   </script>
-</body>
 
+</body>
 </html>
