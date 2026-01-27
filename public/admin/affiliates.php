@@ -82,13 +82,13 @@ function br_phone_normalize($raw)
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h4 class="mb-0">Afiliados</h4>
 
-      <a class="btn btn-outline-danger" href="/admin/logout.php">
+      <a class="btn btn-outline-danger" href="/logout.php">
         Sair
       </a>
 
       <div class="d-flex gap-2">
-        <a class="btn btn-outline-secondary" href="/admin/customers.php">Clientes</a>
-        <a class="btn btn-primary" href="/admin/create_affiliate.php">+ Novo afiliado</a>
+        <a class="btn btn-outline-secondary" href="/customers.php">Clientes</a>
+        <a class="btn btn-primary" href="/create_affiliate.php">+ Novo afiliado</a>
       </div>
     </div>
 
@@ -166,7 +166,7 @@ function br_phone_normalize($raw)
   <!-- Modal Excluir -->
   <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-      <form class="modal-content" method="post" action="/admin/delete_affiliate.php" id="deleteForm">
+      <form class="modal-content" method="post" action="/delete_affiliate.php" id="deleteForm">
         <div class="modal-header">
           <h5 class="modal-title">Excluir afiliado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>

@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $affiliate) {
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h4 class="mb-0">Editar afiliado</h4>
 
-      <a class="btn btn-outline-secondary" href="/admin/affiliates.php">
+      <a class="btn btn-outline-secondary" href="/affiliates.php">
         Voltar
       </a>
     </div>
@@ -159,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $affiliate) {
             </div>
 
             <div class="col-12 text-end mt-3">
-              <a href="/admin/affiliates.php" class="btn btn-outline-secondary me-2">
+              <a href="/affiliates.php" class="btn btn-outline-secondary me-2">
                 Cancelar
               </a>
               <button class="btn btn-primary">

@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     sb_request('PATCH', "customers?id=eq." . urlencode($id), $patch, true);
 
-    header("Location: /admin/customers.php");
+    header("Location: /customers.php");
     exit;
   } catch (Exception $e) {
     $error = $e->getMessage();
@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="text-muted">Atualize os dados do cliente</div>
       </div>
 
-      <a class="btn btn-outline-secondary" href="/admin/customers.php">
+      <a class="btn btn-outline-secondary" href="/customers.php">
         <i class="bi bi-arrow-left me-1"></i>Voltar
       </a>
     </div>
@@ -146,7 +146,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <i class="bi bi-check2-circle me-1"></i>Salvar
           </button>
 
-          <a class="btn btn-outline-secondary" href="/admin/customers.php">
+          <a class="btn btn-outline-secondary" href="/customers.php">
             Cancelar
           </a>
         </div>

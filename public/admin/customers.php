@@ -91,8 +91,8 @@ function customer_status_badge($status)
         <div class="text-muted">Lista de clientes (Teste / Pago)</div>
       </div>
       <div class="d-flex gap-2">
-        <a class="btn btn-primary" href="/admin/create_customer.php">Novo cliente</a>
-        <a class="btn btn-outline-secondary" href="/admin/index.php">Voltar</a>
+        <a class="btn btn-primary" href="/create_customer.php">Novo cliente</a>
+        <a class="btn btn-outline-secondary" href="/index.php">Voltar</a>
       </div>
     </div>
 
@@ -187,7 +187,7 @@ function customer_status_badge($status)
                       <span class="text-muted small">—</span>
                     <?php endif; ?>
 
-                    <a class="btn btn-sm btn-outline-primary" href="/admin/edit_customer.php?id=<?= urlencode($c['id']) ?>">
+                    <a class="btn btn-sm btn-outline-primary" href="/edit_customer.php?id=<?= urlencode($c['id']) ?>">
                       Editar
                     </a>
 

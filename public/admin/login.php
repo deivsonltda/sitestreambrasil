@@ -2,21 +2,22 @@
 session_start();
 $cfg = require __DIR__ . '/../../config.php';
 
-if (!empty($_SESSION['admin'])) {
+if (!empty($_SESSION['admin']) && $_SESSION['admin'] === true) {
   header("Location: /affiliates.php");
   exit;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $pass = $_POST['password'] ?? '';
-  if (hash_equals($cfg['ADMIN_PASSWORD'], $pass)) {
+
+  if (!empty($cfg['ADMIN_PASSWORD']) && hash_equals($cfg['ADMIN_PASSWORD'], $pass)) {
     $_SESSION['admin'] = true;
     header("Location: /affiliates.php");
     exit;
   }
+
   $error = "Senha inválida.";
 }
-
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -40,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="post">
       <label class="form-label">Senha</label>
       <input class="form-control mb-3" type="password" name="password" required>
-      <button class="btn btn-primary w-100">Entrar</button>
+      <button class="btn btn-primary w-100" type="submit">Entrar</button>
     </form>
   </div>
 </div>

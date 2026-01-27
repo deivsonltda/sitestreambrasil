@@ -189,7 +189,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="container py-4" style="max-width:760px;">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h4 class="mb-0">Novo afiliado</h4>
-      <a class="btn btn-outline-secondary" href="/admin/affiliates.php">Voltar</a>
+      <a class="btn btn-outline-secondary" href="/affiliates.php">Voltar</a>
     </div>
 
     <div class="bg-white rounded-4 shadow-sm p-4">
