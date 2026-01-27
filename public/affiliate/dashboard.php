@@ -120,18 +120,19 @@ function get_base_url(array $cfg): string
 // - se tiver trial_expires_at => teste
 // - se status/step indicar pago/active => pago
 // - senão => novo
+// ===== INDICADOS =====
+// Mapeia status do customer para NOVO / TESTANDO / ATIVO / INATIVO
 function map_customer_status(array $c): string
 {
-  $trialExp = trim((string)($c['trial_expires_at'] ?? ''));
-  if ($trialExp !== '') return 'teste';
-
   $status = strtolower(trim((string)($c['status'] ?? '')));
-  $step   = strtoupper(trim((string)($c['step'] ?? '')));
 
-  if (in_array($status, ['paid', 'pago', 'active', 'ativo'], true)) return 'pago';
-  if (in_array($step, ['PAID', 'PAGO', 'ACTIVE'], true)) return 'pago';
+  if ($status === 'active')   return 'active';
+  if ($status === 'suspended') return 'suspended';
+  if ($status === 'trial')    return 'trial';
+  if ($status === 'new')      return 'new';
 
-  return 'novo';
+  // fallback seguro
+  return 'new';
 }
 
 try {
@@ -248,13 +249,18 @@ try {
       --softViolet2: rgba(94, 123, 255, .10);
     }
 
-    html, body { height: 100%; }
+    html,
+    body {
+      height: 100%;
+    }
+
     body.bg-light {
       min-height: 100dvh;
       background: var(--bg) !important;
       position: relative;
       overflow-x: hidden;
     }
+
     body.bg-light::before {
       content: "";
       position: fixed;
@@ -267,13 +273,18 @@ try {
       background-repeat: no-repeat;
       background-size: cover;
     }
+
     .btn-primary {
       border: none;
       font-weight: 700;
       background: linear-gradient(135deg, var(--violet), var(--violet2));
       box-shadow: 0 14px 32px rgba(124, 92, 255, .22);
     }
-    .btn-primary:hover { filter: brightness(1.03); }
+
+    .btn-primary:hover {
+      filter: brightness(1.03);
+    }
+
     .btn-outline-primary {
       --bs-btn-color: var(--violet);
       --bs-btn-border-color: rgba(124, 92, 255, .40);
@@ -283,6 +294,7 @@ try {
       --bs-btn-active-bg: rgba(124, 92, 255, .14);
       --bs-btn-active-border-color: rgba(124, 92, 255, .65);
     }
+
     .btn-outline-secondary {
       --bs-btn-color: rgba(22, 20, 51, .72);
       --bs-btn-border-color: rgba(140, 120, 255, .28);
@@ -290,17 +302,34 @@ try {
       --bs-btn-hover-border-color: rgba(140, 120, 255, .45);
       --bs-btn-hover-color: var(--ink);
     }
-    .btn-refresh i { transition: transform .4s ease; }
-    .btn-refresh:active i { transform: rotate(360deg); }
-    .card-soft, .card-kpi {
+
+    .btn-refresh i {
+      transition: transform .4s ease;
+    }
+
+    .btn-refresh:active i {
+      transform: rotate(360deg);
+    }
+
+    .card-soft,
+    .card-kpi {
       border: 1px solid var(--stroke);
       border-radius: 18px;
       background: rgba(255, 255, 255, .92);
       box-shadow: var(--cardShadow);
       backdrop-filter: blur(6px);
     }
-    .card-kpi .kpi-label { font-size: .9rem; color: rgba(22, 20, 51, .60); }
-    .card-kpi .kpi-value { font-size: 1.72rem; font-weight: 800; letter-spacing: -.4px; }
+
+    .card-kpi .kpi-label {
+      font-size: .9rem;
+      color: rgba(22, 20, 51, .60);
+    }
+
+    .card-kpi .kpi-value {
+      font-size: 1.72rem;
+      font-weight: 800;
+      letter-spacing: -.4px;
+    }
 
     .chip {
       display: inline-flex;
@@ -314,7 +343,10 @@ try {
       font-size: .85rem;
       font-weight: 600;
     }
-    .chip i { color: rgba(124, 92, 255, .95); }
+
+    .chip i {
+      color: rgba(124, 92, 255, .95);
+    }
 
     .delta-chip {
       display: inline-flex;
@@ -328,19 +360,45 @@ try {
       border: 1px solid transparent;
       user-select: none;
     }
-    .delta-chip i { font-size: .92rem; }
-    .delta-chip.up { color: #15803d; background: rgba(34, 197, 94, .14); border-color: rgba(34, 197, 94, .22); }
-    .delta-chip.down { color: #b91c1c; background: rgba(239, 68, 68, .14); border-color: rgba(239, 68, 68, .22); }
-    .delta-chip.neutral { color: #475569; background: rgba(148, 163, 184, .14); border-color: rgba(148, 163, 184, .22); }
 
-    .form-label { font-weight: 700; color: rgba(22, 20, 51, .78); margin-bottom: 6px; }
-    .form-select, .form-control {
+    .delta-chip i {
+      font-size: .92rem;
+    }
+
+    .delta-chip.up {
+      color: #15803d;
+      background: rgba(34, 197, 94, .14);
+      border-color: rgba(34, 197, 94, .22);
+    }
+
+    .delta-chip.down {
+      color: #b91c1c;
+      background: rgba(239, 68, 68, .14);
+      border-color: rgba(239, 68, 68, .22);
+    }
+
+    .delta-chip.neutral {
+      color: #475569;
+      background: rgba(148, 163, 184, .14);
+      border-color: rgba(148, 163, 184, .22);
+    }
+
+    .form-label {
+      font-weight: 700;
+      color: rgba(22, 20, 51, .78);
+      margin-bottom: 6px;
+    }
+
+    .form-select,
+    .form-control {
       border-radius: 14px;
       border: 1px solid rgba(140, 120, 255, .22);
       background: rgba(255, 255, 255, .92);
       transition: .15s ease;
     }
-    .form-select:focus, .form-control:focus {
+
+    .form-select:focus,
+    .form-control:focus {
       border-color: rgba(124, 92, 255, .55);
       box-shadow: 0 0 0 .2rem rgba(124, 92, 255, .16);
     }
@@ -350,12 +408,28 @@ try {
       color: rgba(22, 20, 51, .78);
       background: linear-gradient(135deg, rgba(124, 92, 255, .06), rgba(94, 123, 255, .05));
     }
-    .input-group .btn { border-radius: 14px; }
-    .input-group .form-control { border-radius: 14px; }
-    .input-group>:not(:first-child) { margin-left: 8px; border-radius: 14px !important; }
-    .input-group>:not(:last-child) { border-radius: 14px !important; }
 
-    .table-soft { --rowHover: rgba(124, 92, 255, .06); }
+    .input-group .btn {
+      border-radius: 14px;
+    }
+
+    .input-group .form-control {
+      border-radius: 14px;
+    }
+
+    .input-group>:not(:first-child) {
+      margin-left: 8px;
+      border-radius: 14px !important;
+    }
+
+    .input-group>:not(:last-child) {
+      border-radius: 14px !important;
+    }
+
+    .table-soft {
+      --rowHover: rgba(124, 92, 255, .06);
+    }
+
     .table-soft thead th {
       color: rgba(70, 60, 140, .95);
       font-weight: 800;
@@ -363,12 +437,16 @@ try {
       padding-top: 12px;
       padding-bottom: 12px;
     }
+
     .table-soft tbody td {
       padding-top: 12px;
       padding-bottom: 12px;
       border-color: rgba(140, 120, 255, .12);
     }
-    .table-soft tbody tr:hover { background: var(--rowHover); }
+
+    .table-soft tbody tr:hover {
+      background: var(--rowHover);
+    }
 
     .type-badge {
       display: inline-flex;
@@ -382,12 +460,27 @@ try {
       letter-spacing: .2px;
       white-space: nowrap;
     }
-    .type-adh { background: rgba(94, 123, 255, .12); border-color: rgba(94, 123, 255, .22); color: rgba(35, 90, 165, .95); }
-    .type-rec { background: rgba(124, 92, 255, .12); border-color: rgba(124, 92, 255, .22); color: rgba(70, 60, 140, .95); }
+
+    .type-adh {
+      background: rgba(94, 123, 255, .12);
+      border-color: rgba(94, 123, 255, .22);
+      color: rgba(35, 90, 165, .95);
+    }
+
+    .type-rec {
+      background: rgba(124, 92, 255, .12);
+      border-color: rgba(124, 92, 255, .22);
+      color: rgba(70, 60, 140, .95);
+    }
 
     @media (max-width: 576px) {
-      .card-kpi .kpi-value { font-size: 1.55rem; }
-      .chip { font-size: .82rem; }
+      .card-kpi .kpi-value {
+        font-size: 1.55rem;
+      }
+
+      .chip {
+        font-size: .82rem;
+      }
     }
   </style>
 </head>
@@ -537,7 +630,8 @@ try {
                     <?= htmlspecialchars(fmt_br_datetime($c['created_at'])) ?>
                   </td>
                 </tr>
-            <?php endforeach; endif; ?>
+            <?php endforeach;
+            endif; ?>
           </tbody>
         </table>
       </div>
@@ -563,36 +657,41 @@ try {
               <tr>
                 <td colspan="3" class="text-muted py-3">Nenhum indicado ainda.</td>
               </tr>
-            <?php else: foreach ($customers as $cu): ?>
-              <?php
+              <?php else: foreach ($customers as $cu): ?>
+                <?php
                 $st = map_customer_status($cu);
-              ?>
-              <tr>
-                <td class="fw-semibold">
-                  <?= htmlspecialchars($cu['name'] ?? '—') ?>
-                </td>
+                ?>
+                <tr>
+                  <td class="fw-semibold">
+                    <?= htmlspecialchars($cu['name'] ?? '—') ?>
+                  </td>
 
-                <td>
-                  <?php if ($st === 'novo'): ?>
-                    <span class="type-badge" style="background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.22); color: #475569;">
-                      Novo
-                    </span>
-                  <?php elseif ($st === 'teste'): ?>
-                    <span class="type-badge" style="background: rgba(245,158,11,.14); border-color: rgba(245,158,11,.22); color: #92400e;">
-                      Teste
-                    </span>
-                  <?php else: ?>
-                    <span class="type-badge" style="background: rgba(34,197,94,.14); border-color: rgba(34,197,94,.22); color: #15803d;">
-                      Pago
-                    </span>
-                  <?php endif; ?>
-                </td>
+                  <td>
+                    <?php if ($st === 'new'): ?>
+                      <span class="type-badge" style="background: rgba(148,163,184,.14); border-color: rgba(148,163,184,.22); color: #475569;">
+                        NOVO
+                      </span>
+                    <?php elseif ($st === 'trial'): ?>
+                      <span class="type-badge" style="background: rgba(245,158,11,.14); border-color: rgba(245,158,11,.22); color: #ced10c;">
+                        TESTANDO
+                      </span>
+                    <?php elseif ($st === 'active'): ?>
+                      <span class="type-badge" style="background: rgba(34,197,94,.14); border-color: rgba(34,197,94,.22); color: #15803d;">
+                        ATIVO
+                      </span>
+                    <?php else: ?>
+                      <span class="type-badge" style="background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.22); color: #b91c1c;">
+                        INATIVO
+                      </span>
+                    <?php endif; ?>
+                  </td>
 
-                <td class="text-end text-muted">
-                  <?= htmlspecialchars(fmt_br_datetime($cu['created_at'] ?? '')) ?>
-                </td>
-              </tr>
-            <?php endforeach; endif; ?>
+                  <td class="text-end text-muted">
+                    <?= htmlspecialchars(fmt_br_datetime($cu['created_at'] ?? '')) ?>
+                  </td>
+                </tr>
+            <?php endforeach;
+            endif; ?>
           </tbody>
         </table>
       </div>
@@ -649,4 +748,5 @@ try {
   </script>
 
 </body>
+
 </html>
