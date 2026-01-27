@@ -53,12 +53,12 @@ try {
       </div>
     </div>
     <div class="d-flex gap-2">
-      <a class="btn btn-outline-secondary" href="/admin/customers.php">Voltar</a>
+      <a class="btn btn-outline-secondary" href="/customers.php">Voltar</a>
     </div>
   </div>
 
   <div class="bg-white rounded-4 shadow-sm p-3 mb-3">
-    <form class="row g-2 align-items-end" method="post" action="/admin/create_payment_for_subscription.php">
+    <form class="row g-2 align-items-end" method="post" action="/create_payment_for_subscription.php">
       <input type="hidden" name="subscription_id" value="<?= htmlspecialchars($sub['id']) ?>">
       <div class="col-md-4">
         <label class="form-label">Mês (referência)</label>
@@ -130,7 +130,7 @@ async function markPaid(paymentId){
   const form = new FormData();
   form.append('payment_id', paymentId);
 
-  const resp = await fetch('/admin/mark_paid.php', { method: 'POST', body: form });
+  const resp = await fetch('/mark_paid.php', { method: 'POST', body: form });
   const data = await resp.json();
 
   if (!data.ok){

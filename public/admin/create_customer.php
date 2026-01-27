@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'started_at' => gmdate('c')
     ], true);
 
-    header("Location: /admin/customers.php?created=1");
+    header("Location: /customers.php?created=1");
     exit;
   } catch (Exception $e) {
     $error = $e->getMessage();

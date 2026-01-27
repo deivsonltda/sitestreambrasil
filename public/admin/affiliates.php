@@ -133,7 +133,7 @@ function br_phone_normalize($raw)
 
                 <td>
                   <a class="btn btn-sm btn-outline-primary" target="_blank"
-                    href="/affiliate/?code=<?= urlencode($a['code']) ?>">
+                    href="/?code=<?= urlencode($a['code']) ?>">
                     Abrir painel
                   </a>
                 </td>
@@ -141,7 +141,7 @@ function br_phone_normalize($raw)
                 <td class="text-end">
                   <div class="d-flex justify-content-end gap-2 flex-wrap">
                     <a class="btn btn-sm btn-outline-primary"
-                      href="/admin/edit_affiliate.php?id=<?= urlencode($a['id']) ?>">
+                      href="/edit_affiliate.php?id=<?= urlencode($a['id']) ?>">
                       <i class="bi bi-pencil-square me-1"></i>Editar
                     </a>
 

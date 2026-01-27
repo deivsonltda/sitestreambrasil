@@ -262,7 +262,7 @@ function customer_status_badge($status)
       const form = new FormData();
       form.append('customer_id', customerId);
 
-      const resp = await fetch('/admin/mark_customer_paid.php', {
+      const resp = await fetch('/mark_customer_paid.php', {
         method: 'POST',
         body: form
       });
@@ -333,7 +333,7 @@ function customer_status_badge($status)
       const form = new FormData();
       form.append('customer_id', customerId);
 
-      const resp = await fetch('/admin/delete_customer.php', {
+      const resp = await fetch('/delete_customer.php', {
         method: 'POST',
         body: form
       });

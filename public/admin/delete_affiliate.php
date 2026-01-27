@@ -18,7 +18,7 @@ try {
   // Como suas FK estão com ON DELETE CASCADE, deletar o afiliado apaga regras, links, clicks, customers etc.
   sb_request('DELETE', "affiliates?id=eq.$affiliateId", null, true);
 
-  header("Location: /admin/affiliates.php?deleted=1");
+  header("Location: /affiliates.php?deleted=1");
   exit;
 
 } catch (Exception $e) {

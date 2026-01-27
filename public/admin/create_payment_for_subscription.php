@@ -57,7 +57,7 @@ try {
   $customerId = $sub[0]['customer_id'] ?? null;
   if (!$customerId) throw new Exception("Assinatura sem customer_id.");
 
-  header("Location: /admin/customer_payments.php?customer_id=" . urlencode($customerId));
+  header("Location: /customer_payments.php?customer_id=" . urlencode($customerId));
   exit;
 
 } catch (Exception $e) {

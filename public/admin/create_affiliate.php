@@ -157,11 +157,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       <hr>
 
-      <p class='mb-2'><strong>Login do afiliado:</strong> <code>/affiliate/login.php</code></p>
+      <p class='mb-2'><strong>Login do afiliado:</strong> <code>/login.php</code></p>
 
       <div class='mt-3 d-flex gap-2'>
-        <a href='/admin/affiliates.php' class='btn btn-primary'>Voltar para afiliados</a>
-        <a href='/admin/create_affiliate.php' class='btn btn-outline-secondary'>Criar outro</a>
+        <a href='/affiliates.php' class='btn btn-primary'>Voltar para afiliados</a>
+        <a href='/create_affiliate.php' class='btn btn-outline-secondary'>Criar outro</a>
       </div>
     </div>
   </div>
