@@ -1,11 +1,13 @@
 <?php
 session_start();
-$cfg = require __DIR__ . '/../../config.php';
 
-if (!empty($_SESSION['admin'])) {
+if (!empty($_SESSION['admin']) && $_SESSION['admin'] === true) {
   header("Location: /affiliates.php");
   exit;
 }
+
+header("Location: /login.php");
+exit;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $pass = $_POST['password'] ?? '';
