@@ -180,7 +180,7 @@ try {
 
   $base = get_base_url($cfg);
   // link ABSOLUTO para o shortlink handler (a.php?c=code)
-  $refLink = $base . '/a.php?c=' . urlencode((string)($aff['code'] ?? ''));
+  $refLink = rtrim($cfg['BASE_URL'] ?? '', '/') . '/a.php?c=' . urlencode($aff['code']);
 } catch (Exception $e) {
   http_response_code(404);
   echo $e->getMessage();
