@@ -15,11 +15,11 @@ require __DIR__ . '/_layout_top.php';
 
 <div class="list" id="list"></div>
 
-<script src="/crm/public/assets/app.js"></script>
+<script src="/public/assets/app.js"></script>
 <script>
 CRM.initCustomers({
-  listUrl: '/crm/api/customers_list.php',
-  updateUrl: '/crm/api/customer_update_step.php',
+  listUrl: '/api/customers_list.php',
+  updateUrl: '/api/customer_update_step.php',
   containerId: 'list'
 });
 document.getElementById('btnSearch').onclick = () => CRM.searchCustomers();

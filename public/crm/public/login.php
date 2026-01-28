@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!empty($_SESSION['agent_id'])) {
-  header('Location: /crm/public/solicitacoes.php'); exit;
+  header('Location: /public/solicitacoes.php'); exit;
 }
 ?>
 <!doctype html>
@@ -9,7 +9,7 @@ if (!empty($_SESSION['agent_id'])) {
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="/crm/public/assets/app.css" />
+  <link rel="stylesheet" href="/public/assets/app.css" />
   <title>CRM - Login</title>
 </head>
 <body class="login-body">
@@ -37,7 +37,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   const fd = new FormData(e.target);
   const payload = { username: fd.get('username'), password: fd.get('password') };
 
-  const res = await fetch('/crm/api/login.php', {
+  const res = await fetch('/api/login.php', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify(payload)
@@ -49,7 +49,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     el.textContent = 'Login inválido.';
     return;
   }
-  location.href = '/crm/public/solicitacoes.php';
+  location.href = '/public/solicitacoes.php';
 });
 </script>
 </body>

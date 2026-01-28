@@ -14,12 +14,12 @@ require __DIR__ . '/_layout_top.php';
 
 <div class="list" id="list"></div>
 
-<script src="/crm/public/assets/app.js"></script>
+<script src="/public/assets/app.js"></script>
 <script>
 CRM.initList({
-  url: '/crm/api/tickets_done.php',
+  url: '/api/tickets_done.php',
   containerId: 'list',
-  onOpen: (ticketId) => location.href = '/crm/public/chat.php?ticket=' + encodeURIComponent(ticketId),
+  onOpen: (ticketId) => location.href = '/public/chat.php?ticket=' + encodeURIComponent(ticketId),
   autoRefreshMs: 5000
 });
 document.getElementById('btnRefresh').onclick = () => CRM.refreshList();

@@ -48,7 +48,7 @@ $ticketId = trim($ticketId);
       return;
     }
 
-    const r = await fetch('/crm/api/ticket_get.php?ticket=' + encodeURIComponent(id), {
+    const r = await fetch('/api/ticket_get.php?ticket=' + encodeURIComponent(id), {
       cache: 'no-store'
     });
     const j = await r.json();
@@ -104,7 +104,7 @@ $ticketId = trim($ticketId);
 
   async function loadMessages() {
     const id = window.TICKET_ID;
-    const r = await fetch('/crm/api/messages_list.php?ticket=' + encodeURIComponent(id), {
+    const r = await fetch('/api/messages_list.php?ticket=' + encodeURIComponent(id), {
       cache: 'no-store'
     });
     const j = await r.json();
@@ -124,7 +124,7 @@ $ticketId = trim($ticketId);
     const text = (input.value || '').trim();
     if (!text) return;
 
-    const r = await fetch('/crm/api/message_send.php', {
+    const r = await fetch('/api/message_send.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -149,7 +149,7 @@ $ticketId = trim($ticketId);
 
   async function done() {
     const id = window.TICKET_ID;
-    const r = await fetch('/crm/api/ticket_done.php', {
+    const r = await fetch('/api/ticket_done.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -165,7 +165,7 @@ $ticketId = trim($ticketId);
       alert('erro ao concluir');
       return;
     }
-    location.href = '/crm/public/conversas.php';
+    location.href = '/public/conversas.php';
   }
 
   document.getElementById('btnSend').onclick = sendMsg;

@@ -84,7 +84,7 @@ function cardHtml(t){
 }
 
 async function load(){
-  const res = await fetch('/crm/api/tickets_open.php?q=' + encodeURIComponent(q.value || ''), {cache:'no-store'});
+  const res = await fetch('/api/tickets_open.php?q=' + encodeURIComponent(q.value || ''), {cache:'no-store'});
   const json = await res.json();
   if (!json.ok) return;
 
@@ -103,7 +103,7 @@ async function load(){
       btn.disabled = true;
       btn.textContent = 'INICIANDO...';
 
-      const r = await fetch('/crm/api/ticket_claim.php', {
+      const r = await fetch('/api/ticket_claim.php', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ticket_id:id})
@@ -118,7 +118,7 @@ async function load(){
         return;
       }
 
-      location.href = '/crm/public/chat.php?ticket=' + encodeURIComponent(id);
+      location.href = '/public/chat.php?ticket=' + encodeURIComponent(id);
     };
   });
 }

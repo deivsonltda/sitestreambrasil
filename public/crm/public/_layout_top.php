@@ -4,7 +4,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (empty($_SESSION['agent_id'])) {
-  header('Location: /crm/public/login.php');
+  header('Location: /public/login.php');
   exit;
 }
 
@@ -49,7 +49,7 @@ if ($AGENT_ROLE === 'admin') {
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <!-- CSS do CRM -->
-  <link rel="stylesheet" href="/crm/public/assets/app.css">
+  <link rel="stylesheet" href="/public/assets/app.css">
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -72,25 +72,25 @@ if ($AGENT_ROLE === 'admin') {
     <nav class="nav">
       <?php if ($AGENT_ROLE === 'admin'): ?>
         <a class="nav-item <?= $current === 'atendentes' ? 'active' : '' ?>"
-           href="/crm/public/atendentes.php"
+           href="/public/atendentes.php"
            title="Atendentes">
           <i class="fa-solid fa-users-gear"></i>
         </a>
       <?php else: ?>
         <a class="nav-item <?= $current === 'solicitacoes' ? 'active' : '' ?>"
-           href="/crm/public/solicitacoes.php"
+           href="/public/solicitacoes.php"
            title="Solicitações">
           <i class="fa-regular fa-comment-dots"></i>
         </a>
 
         <a class="nav-item <?= $current === 'conversas' ? 'active' : '' ?>"
-           href="/crm/public/conversas.php"
+           href="/public/conversas.php"
            title="Conversas">
           <i class="fa-solid fa-headset"></i>
         </a>
 
         <a class="nav-item <?= $current === 'concluidas' ? 'active' : '' ?>"
-           href="/crm/public/concluidas.php"
+           href="/public/concluidas.php"
            title="Concluídas">
           <i class="fa-regular fa-circle-check"></i>
         </a>
@@ -107,7 +107,7 @@ if ($AGENT_ROLE === 'admin') {
         </div>
       </div>
 
-      <a class="logout" href="/crm/public/logout.php" title="Sair">
+      <a class="logout" href="/public/logout.php" title="Sair">
         <i class="fa-solid fa-right-from-bracket"></i>
       </a>
     </div>
