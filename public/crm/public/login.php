@@ -27,7 +27,7 @@ if (!empty($_SESSION['agent_id'])) {
     </form>
 
     <div class="login-hint">
-      Dica: rode <code>/crm/api/seed_agent.php</code> uma vez pra criar o admin (e apague depois).
+      Dica: rode <code>/api/seed_agent.php</code> uma vez pra criar o admin (e apague depois).
     </div>
   </div>
 
